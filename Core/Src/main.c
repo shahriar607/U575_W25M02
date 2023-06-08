@@ -56,6 +56,7 @@
 /* USER CODE BEGIN PV */
 uint8_t id[ID_SIZE];
 uint8_t k=1;
+uint8_t rxData1[10] = {0}; // Buffer to store the received data
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -117,7 +118,7 @@ int main(void)
   while (1)
   {
 		//OSPI_Erase128K_W25M02IG();
-		OSPI_WRITE_W25M02IG();
+	//	OSPI_WRITE_W25M02IG();
 		OSPI_READ_W25M02IG();
 	//	OctaSPI_GetID();
 	 //  Write_Protection_SoftorHard();
