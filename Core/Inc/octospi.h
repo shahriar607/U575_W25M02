@@ -33,6 +33,7 @@ void OctaSPI_GetID(void);
 void OSPI_WRITE_W25M02IG(void);
 void OSPI_READ_W25M02IG(void);
 void OSPI_Erase128K_W25M02IG(void);
+void OSPI_Reset_W25M02(void);
 /* USER CODE END Includes */
 
 extern OSPI_HandleTypeDef hospi1;

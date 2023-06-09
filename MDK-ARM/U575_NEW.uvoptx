@@ -147,6 +147,102 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
+          <LineNumber>517</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134245154</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>../Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_ll_usb.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\U575_NEW\../Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_ll_usb.c\517</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>476</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>../Core/Src/octospi.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>2125</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>540</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>../Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_ll_usb.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\U575_NEW\../Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_ll_usb.c\2125</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>603</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>100</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>../Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_ll_usb.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\U575_NEW\../Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_ll_usb.c\603</Expression>
+        </Bp>
+        <Bp>
+          <Number>4</Number>
+          <Type>0</Type>
+          <LineNumber>532</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134241972</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>../Core/Src/octospi.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\U575_NEW\../Core/Src/octospi.c\532</Expression>
+        </Bp>
+        <Bp>
+          <Number>5</Number>
+          <Type>0</Type>
+          <LineNumber>601</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>76</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>../Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_ll_usb.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\U575_NEW\../Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_ll_usb.c\601</Expression>
+        </Bp>
+        <Bp>
+          <Number>6</Number>
+          <Type>0</Type>
           <LineNumber>966</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>148</Address>
@@ -161,11 +257,11 @@
           <Expression>\\U575_NEW\../Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_ll_usb.c\966</Expression>
         </Bp>
         <Bp>
-          <Number>1</Number>
+          <Number>7</Number>
           <Type>0</Type>
-          <LineNumber>300</LineNumber>
+          <LineNumber>526</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134240990</Address>
+          <Address>134241926</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -174,28 +270,12 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>../Core/Src/octospi.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\U575_NEW\../Core/Src/octospi.c\300</Expression>
+          <Expression>\\U575_NEW\../Core/Src/octospi.c\526</Expression>
         </Bp>
         <Bp>
-          <Number>2</Number>
+          <Number>8</Number>
           <Type>0</Type>
-          <LineNumber>302</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134241034</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>../Core/Src/octospi.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\U575_NEW\../Core/Src/octospi.c\302</Expression>
-        </Bp>
-        <Bp>
-          <Number>3</Number>
-          <Type>0</Type>
-          <LineNumber>453</LineNumber>
+          <LineNumber>357</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
           <ByteObject>0</ByteObject>
@@ -209,9 +289,9 @@
           <Expression></Expression>
         </Bp>
         <Bp>
-          <Number>4</Number>
+          <Number>9</Number>
           <Type>0</Type>
-          <LineNumber>486</LineNumber>
+          <LineNumber>796</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>0</Address>
           <ByteObject>0</ByteObject>
@@ -220,7 +300,23 @@
           <SizeOfObject>0</SizeOfObject>
           <BreakByAccess>0</BreakByAccess>
           <BreakIfRCount>0</BreakIfRCount>
-          <Filename>../Core/Src/octospi.c</Filename>
+          <Filename>../Drivers/STM32U5xx_HAL_Driver/Src/stm32u5xx_ll_usb.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression></Expression>
+        </Bp>
+        <Bp>
+          <Number>10</Number>
+          <Type>0</Type>
+          <LineNumber>302</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>0</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>0</BreakIfRCount>
+          <Filename>startup_stm32u575xx.s</Filename>
           <ExecCommand></ExecCommand>
           <Expression></Expression>
         </Bp>
@@ -230,6 +326,16 @@
           <count>0</count>
           <WinNumber>1</WinNumber>
           <ItemText>rxData1</ItemText>
+        </Ww>
+        <Ww>
+          <count>1</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>DATA_Send</ItemText>
+        </Ww>
+        <Ww>
+          <count>2</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>ad_buffer</ItemText>
         </Ww>
       </WatchWindow1>
       <Tracepoint>
