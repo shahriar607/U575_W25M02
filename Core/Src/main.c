@@ -57,8 +57,8 @@
 uint8_t id[ID_SIZE];
 uint8_t k=1;
 //uint8_t rxData1[10] = {0}; // Buffer to store the received data
-uint8_t bi=1;
-uint8_t bi1 =1;
+//uint8_t bi=1;
+//uint8_t bi1 =1;
 
 /* USER CODE END PV */
 
@@ -114,6 +114,10 @@ int main(void)
   MX_OCTOSPI1_Init();
   /* USER CODE BEGIN 2 */
 
+
+//OSPI_Reset_W25M02();
+OSPI_WRITE_W25M02IG();
+
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -121,9 +125,7 @@ int main(void)
   while (1)
   {
 		//uint8_t Buffer_2048[2048]={0};
-		//if (bi1==1){ OSPI_Reset_W25M02();		bi1-=1;}
-		//if (bi==1){		OSPI_Erase128K_W25M02IG();			bi-=1;}
-		//if (bi==1){	OSPI_WRITE_W25M02IG();		bi-=1;}
+	
 		//OSPI_WRITE_W25M02IG();
 		OSPI_READ_W25M02IG();
 	//	OctaSPI_GetID();
