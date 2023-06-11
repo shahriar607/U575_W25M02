@@ -22,9 +22,9 @@
 
 /* USER CODE BEGIN 0 */
 //extern 
-//uint8_t rxData1[10]={0};
-uint16_t ad_page=0x0017;
-uint16_t ad_buffer=0x0007;
+uint8_t rxData1[30]={0};
+uint16_t ad_page=0x001E;
+uint16_t ad_buffer=0x000A;
 /* USER CODE END 0 */
 
 OSPI_HandleTypeDef hospi1;
@@ -46,8 +46,8 @@ void MX_OCTOSPI1_Init(void)
   hospi1.Instance = OCTOSPI1;
   hospi1.Init.FifoThreshold = 1;
   hospi1.Init.DualQuad = HAL_OSPI_DUALQUAD_DISABLE;
- // hospi1.Init.MemoryType = HAL_OSPI_MEMTYPE_MICRON;
-  hospi1.Init.DeviceSize = 32;
+  hospi1.Init.MemoryType = HAL_OSPI_MEMTYPE_MICRON;
+  hospi1.Init.DeviceSize = 27;
   hospi1.Init.ChipSelectHighTime = 6;
   hospi1.Init.FreeRunningClock = HAL_OSPI_FREERUNCLK_DISABLE;
   hospi1.Init.ClockMode = HAL_OSPI_CLOCK_MODE_0;
@@ -96,7 +96,7 @@ void HAL_OSPI_MspInit(OSPI_HandleTypeDef* ospiHandle)
   /** Initializes the peripherals clock
   */
     PeriphClkInit.PeriphClockSelection = RCC_PERIPHCLK_OSPI;
-    PeriphClkInit.OspiClockSelection = RCC_OSPICLKSOURCE_MSIK;
+    PeriphClkInit.OspiClockSelection = RCC_OSPICLKSOURCE_SYSCLK;
     if (HAL_RCCEx_PeriphCLKConfig(&PeriphClkInit) != HAL_OK)
     {
       Error_Handler();
@@ -180,7 +180,56 @@ void CS_OSPI_Deselect(void) {
   HAL_GPIO_WritePin(CS_OSPI_GPIO_Port, CS_OSPI_Pin, GPIO_PIN_SET);
 }
 
-
+void OSPI_READ_Register(void){
+HAL_Delay(1);
+		CS_OSPI_Select();              //READ BUFFER TO OUT
+   	uint16_t DATA_READ_OSPI=10;
+	OSPI_RegularCmdTypeDef cmd;
+    cmd.OperationType = HAL_OSPI_OPTYPE_COMMON_CFG ;
+    cmd.FlashId = HAL_OSPI_FLASH_ID_1;
+    cmd.InstructionMode = HAL_OSPI_INSTRUCTION_1_LINE;
+	  cmd.Instruction = 0x0FC0; /* Read Identification command */
+    cmd.InstructionSize = HAL_OSPI_INSTRUCTION_16_BITS;
+    cmd.InstructionDtrMode = HAL_OSPI_INSTRUCTION_DTR_DISABLE;
+    cmd.AddressMode = HAL_OSPI_ADDRESS_NONE;
+    cmd.AddressSize = HAL_OSPI_ADDRESS_16_BITS;
+    cmd.AddressDtrMode = HAL_OSPI_ADDRESS_DTR_DISABLE;
+    cmd.AlternateBytesMode = HAL_OSPI_ALTERNATE_BYTES_NONE;
+    cmd.DataMode = HAL_OSPI_DATA_1_LINE;
+    cmd.DataDtrMode = HAL_OSPI_DATA_DTR_DISABLE;
+    cmd.DQSMode = HAL_OSPI_DQS_DISABLE;
+    cmd.SIOOMode = HAL_OSPI_SIOO_INST_EVERY_CMD;
+    cmd.DummyCycles = 0;
+	  cmd.NbData = DATA_READ_OSPI;
+    cmd.Address = ad_buffer;//READ CA ADDRESS 2047 BYTE TO OUT
+		uint8_t rxData2;
+		HAL_OSPI_Command(&hospi1, &cmd, HAL_MAX_DELAY);
+    
+         HAL_OSPI_Receive(&hospi1, &rxData2, HAL_MAX_DELAY);
+       //    }
+		 	CS_OSPI_Deselect();
+				 
+	 if (rxData2!= 0x00 )
+	 {
+		 HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
+		HAL_Delay(300);
+		HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
+		HAL_Delay(300);}
+		 if (rxData2 ==0x00)
+			{
+			HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
+		HAL_Delay(300);
+		HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
+		HAL_Delay(300);}
+			
+		if (rxData2 & 0X18)
+			{
+			HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
+		HAL_Delay(300);
+		HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
+		HAL_Delay(300);
+			}
+			}
 void OctaSPI_GetID(void)
 	
 {
@@ -248,7 +297,7 @@ HAL_Delay(10);
     cmd.OperationType = HAL_OSPI_OPTYPE_COMMON_CFG ;
     cmd.FlashId = HAL_OSPI_FLASH_ID_1;
     cmd.InstructionMode = HAL_OSPI_INSTRUCTION_1_LINE;
-	  cmd.Instruction = 0x1300; /* Read Identification command */
+	  cmd.Instruction = 0x1313; /* Read Identification command */
     cmd.InstructionSize = HAL_OSPI_INSTRUCTION_16_BITS;
     cmd.InstructionDtrMode = HAL_OSPI_INSTRUCTION_DTR_DISABLE;
     cmd.AddressMode = HAL_OSPI_ADDRESS_1_LINE;
@@ -259,19 +308,19 @@ HAL_Delay(10);
    	cmd.DataMode = HAL_OSPI_DATA_NONE;
 	  cmd.DataDtrMode = HAL_OSPI_DATA_DTR_DISABLE;
     cmd.DQSMode = HAL_OSPI_DQS_DISABLE;
-    cmd.SIOOMode = HAL_OSPI_SIOO_INST_EVERY_CMD;
+   // cmd.SIOOMode =HAL_OSPI_SIOO_INST_ONLY_FIRST_CMD 
+	  cmd.SIOOMode = HAL_OSPI_SIOO_INST_EVERY_CMD;
     cmd.DummyCycles = 0;
 	  cmd.NbData = 0;
     cmd.Address = ad_page;//WRITE PAGE ADDRESS only 2047 BYTES TO BUFFER
     		
-    CS_OSPI_Select();
+      CS_OSPI_Select();
        HAL_OSPI_Command(&hospi1, &cmd, HAL_MAX_DELAY);
-    
-		CS_OSPI_Deselect();
+    	CS_OSPI_Deselect();
+		
 		HAL_Delay(1);
-		CS_OSPI_Select();//READ BUFFER TO OUT
-   
-		uint16_t DATA_READ_OSPI=10;
+		CS_OSPI_Select();              //READ BUFFER TO OUT
+   	uint16_t DATA_READ_OSPI=30;
     cmd.OperationType = HAL_OSPI_OPTYPE_COMMON_CFG ;
     cmd.FlashId = HAL_OSPI_FLASH_ID_1;
     cmd.InstructionMode = HAL_OSPI_INSTRUCTION_1_LINE;
@@ -288,28 +337,28 @@ HAL_Delay(10);
     cmd.SIOOMode = HAL_OSPI_SIOO_INST_EVERY_CMD;
     cmd.DummyCycles = 8;
 	  cmd.NbData = DATA_READ_OSPI;
-    cmd.Address = ad_buffer;//READ CA ADDRESS 2047 BYTE TO OUT
-		uint8_t rxData1[10]={0};
+    cmd.Address = 0x0000;//READ CA ADDRESS 2047 BYTE TO OUT
+		//uint8_t rxData1[10]={0};
 		HAL_OSPI_Command(&hospi1, &cmd, HAL_MAX_DELAY);
      for (int i = 0; i < DATA_READ_OSPI; i++) {
          HAL_OSPI_Receive(&hospi1, &rxData1[i], HAL_MAX_DELAY);
            }
 		 	CS_OSPI_Deselect();
 				 
-	 if (rxData1[0]==0xBB)
+	 if (rxData1[10]==0x7A)
 	 {
 		 HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
 		HAL_Delay(300);
 		HAL_GPIO_TogglePin(LED_RED_GPIO_Port, LED_RED_Pin);
 		HAL_Delay(300);}
-		 if (rxData1[1]==0xCC)
+		 if (rxData1[11]==0x7B)
 			{
 			HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
 		HAL_Delay(300);
 		HAL_GPIO_TogglePin(LED_BLUE_GPIO_Port, LED_BLUE_Pin);
 		HAL_Delay(300);}
 			
-		if (rxData1[2]==0xEE)
+		if (rxData1[12]==0x7C)
 			{
 			HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin);
 		HAL_Delay(300);
@@ -323,7 +372,7 @@ void OSPI_Reset_W25M02(void)
     cmd.OperationType = HAL_OSPI_OPTYPE_COMMON_CFG ;
     cmd.FlashId = HAL_OSPI_FLASH_ID_1;
     cmd.InstructionMode = HAL_OSPI_INSTRUCTION_1_LINE;
-	  cmd.Instruction = 0x66; /* Read Identification command */
+	  cmd.Instruction = 0xFF; /* Read Identification command */
     cmd.InstructionSize = HAL_OSPI_INSTRUCTION_8_BITS;
     cmd.InstructionDtrMode = HAL_OSPI_INSTRUCTION_DTR_DISABLE;
     cmd.AddressMode = HAL_OSPI_ADDRESS_NONE;
@@ -346,12 +395,12 @@ void OSPI_Reset_W25M02(void)
     HAL_Delay(1);
 		CS_OSPI_Deselect();
 		HAL_Delay(1);
-		CS_OSPI_Select();
+	/*	CS_OSPI_Select();
     HAL_Delay(1);
 		cmd.Instruction = 0x99;
 		HAL_OSPI_Command(&hospi1, &cmd, HAL_MAX_DELAY);
 		CS_OSPI_Deselect();
-		HAL_Delay(1);
+		HAL_Delay(1);*/
 			}
 	 void OSPI_Erase128K_W25M02IG(void)
 	 {
@@ -451,10 +500,36 @@ void OSPI_Reset_W25M02(void)
 	 void OSPI_WRITE_W25M02IG(void)
 	 {
 		 //-----------------------WRITE ENABLE CONFIGORATION(Protection Register_1) ----------------------
-		//HAL_Delay(10);
+		HAL_Delay(1);
 		 CS_OSPI_Select();
-   // HAL_Delay(10); 
+	// HAL_Delay(10);
+	 // uint8_t txData = 0x06;
+   // HAL_OSPI_Transmit(&hospi1, &txData, HAL_MAX_DELAY);
 		 OSPI_RegularCmdTypeDef cmd;
+	  cmd.InstructionMode = HAL_OSPI_INSTRUCTION_1_LINE;
+	  cmd.Instruction = 0x06; // Read Identification command 
+    cmd.InstructionSize = HAL_OSPI_INSTRUCTION_8_BITS;
+    cmd.InstructionDtrMode = HAL_OSPI_INSTRUCTION_DTR_DISABLE;
+    cmd.AddressMode = HAL_OSPI_ADDRESS_NONE;
+    cmd.AddressSize = HAL_OSPI_ADDRESS_16_BITS;
+    cmd.AddressDtrMode = HAL_OSPI_ADDRESS_DTR_DISABLE;
+    cmd.AlternateBytesMode = HAL_OSPI_ALTERNATE_BYTES_NONE;
+    //cmd.DataMode = HAL_OSPI_DATA_1_LINE;
+   	cmd.DataMode = HAL_OSPI_DATA_NONE;
+	  cmd.DataDtrMode = HAL_OSPI_DATA_DTR_DISABLE;
+    cmd.DQSMode = HAL_OSPI_DQS_DISABLE;
+    cmd.SIOOMode = HAL_OSPI_SIOO_INST_EVERY_CMD;
+    cmd.DummyCycles = 0;
+	  cmd.NbData = 0;
+    cmd.Address = 0x0000;		 
+	   HAL_OSPI_Command(&hospi1, &cmd, HAL_MAX_DELAY);// WRITE ENABLE 0X06
+	  
+	// HAL_Delay(10);
+	CS_OSPI_Deselect();
+	 HAL_Delay(1);
+		 CS_OSPI_Select();
+    //HAL_Delay(10); 
+		// OSPI_RegularCmdTypeDef cmd;
     cmd.OperationType = HAL_OSPI_OPTYPE_COMMON_CFG ;
     cmd.FlashId = HAL_OSPI_FLASH_ID_1;
     cmd.InstructionMode = HAL_OSPI_INSTRUCTION_1_LINE;
@@ -466,11 +541,11 @@ void OSPI_Reset_W25M02(void)
     cmd.AddressDtrMode = HAL_OSPI_ADDRESS_DTR_DISABLE;
     cmd.AlternateBytesMode = HAL_OSPI_ALTERNATE_BYTES_NONE;
    // cmd.DataMode = HAL_OSPI_DATA_1_LINE;
-   	cmd.DataMode = HAL_OSPI_DATA_NONE;
-	  cmd.DataDtrMode = HAL_OSPI_DATA_DTR_DISABLE;
+		 cmd.DataDtrMode = HAL_OSPI_DATA_DTR_DISABLE;
     cmd.DQSMode = HAL_OSPI_DQS_DISABLE;
     cmd.SIOOMode = HAL_OSPI_SIOO_INST_EVERY_CMD;
-    cmd.DummyCycles = 0;
+    cmd.DataMode = HAL_OSPI_DATA_NONE;
+	  cmd.DummyCycles = 0;
 	  cmd.NbData = 0;
     cmd.Address = 0x0000;
     	
@@ -483,15 +558,20 @@ void OSPI_Reset_W25M02(void)
         HAL_Delay(1);
 		
 		//--------------------------THE END WRITE ENABLE CONFIGORATION (Protection Register)-----------
-	 
+	/*  CS_OSPI_Select();
+     HAL_Delay(10);
+   uint8_t txData = 0x06;
+   HAL_OSPI_Transmit(&hospi1, &txData, HAL_MAX_DELAY);	
+	  HAL_Delay(10);
+				CS_OSPI_Deselect();
+    HAL_Delay(10);*/
                                 //  
 		//---------------------start write in buffer maximum 2045 ADDRESS CA------------------------
                 	// -------- Random Load Program Data (84h)------------
 		 CS_OSPI_Select();
-     //HAL_Delay(10);
+    // HAL_Delay(10);
 		 uint16_t DATA_READ_OSPI=10;
 		 uint8_t DATA_Send[]={0x7A,0x7B,0x7C,0x7D,0x7E,0x7F,0xAA,0xBB,0xCC,0xEE};
-   
     cmd.OperationType = HAL_OSPI_OPTYPE_COMMON_CFG ;
     cmd.FlashId = HAL_OSPI_FLASH_ID_1;
     cmd.InstructionMode = HAL_OSPI_INSTRUCTION_1_LINE;
@@ -508,17 +588,17 @@ void OSPI_Reset_W25M02(void)
     cmd.DQSMode = HAL_OSPI_DQS_DISABLE;
     cmd.SIOOMode = HAL_OSPI_SIOO_INST_EVERY_CMD;
     cmd.DummyCycles = 0;
-	  cmd.NbData = 10;
+	  cmd.NbData = DATA_READ_OSPI;
     cmd.Address = ad_buffer;// WRITE BUFFER CA ADDRESS
     //uint8_t rxData1[10] = {0}; // Buffer to store the received data
-   // uint8_t txData;
+		 
 		HAL_OSPI_Command(&hospi1, &cmd, HAL_MAX_DELAY);
      for (int i = 0; i < DATA_READ_OSPI; i++) {
          HAL_OSPI_Transmit(&hospi1, &DATA_Send[i], HAL_MAX_DELAY);
 			 
            }
 		 
-					// HAL_Delay(10);
+				//	 HAL_Delay(10);
 				CS_OSPI_Deselect();
     HAL_Delay(1);
 		 //------------------------The End send Data on buffer---------------------------------
@@ -545,7 +625,7 @@ void OSPI_Reset_W25M02(void)
     cmd.DummyCycles = 0;
 	  cmd.NbData = 0;
     cmd.Address = 0x0000;		 
-	 HAL_OSPI_Command(&hospi1, &cmd, HAL_MAX_DELAY);// WRITE ENABLE 0X06
+	                   HAL_OSPI_Command(&hospi1, &cmd, HAL_MAX_DELAY);// WRITE ENABLE 0X06
 	  
 	 //HAL_Delay(10);
 	CS_OSPI_Deselect();
@@ -557,7 +637,7 @@ void OSPI_Reset_W25M02(void)
 	CS_OSPI_Select();
 	// HAL_Delay(10);
 	 cmd.InstructionMode = HAL_OSPI_INSTRUCTION_1_LINE;
-	  cmd.Instruction = 0x1000; //Read Identification command and Dummy
+	  cmd.Instruction = 0x1010; //Read Identification command and Dummy
     cmd.InstructionSize = HAL_OSPI_INSTRUCTION_16_BITS;
     cmd.InstructionDtrMode = HAL_OSPI_INSTRUCTION_DTR_DISABLE;
     cmd.AddressMode = HAL_OSPI_ADDRESS_1_LINE;
@@ -573,7 +653,7 @@ void OSPI_Reset_W25M02(void)
 	  cmd.NbData = 0;
     cmd.Address = ad_page;//WRITE TO FLASHRAM PAGE ADDRESS
 		
-	 HAL_OSPI_Command(&hospi1, &cmd, HAL_MAX_DELAY);
+	                         HAL_OSPI_Command(&hospi1, &cmd, HAL_MAX_DELAY);
 	                          
 	 //HAL_Delay(10);
 	CS_OSPI_Deselect();
